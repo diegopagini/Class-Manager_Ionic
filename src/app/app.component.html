@@ -1,4 +1,7 @@
 <ion-app>
-  <ion-router-outlet *ngIf="load" />
-  <jeep-sqlite *ngIf="isWeb" />
+  @if (load) {
+  <ion-router-outlet />
+  } @if (isWeb) {
+  <jeep-sqlite />
+  }
 </ion-app>
