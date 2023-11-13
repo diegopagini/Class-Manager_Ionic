@@ -8,7 +8,16 @@
       "schematics": {
         "@ionic/angular-toolkit:page": {
           "styleext": "scss",
-          "standalone": true
+          "standalone": true,
+          "skipTests": true
+        },
+        "@ionic/angular-toolkit:component": {
+          "styleext": "scss",
+          "standalone": true,
+          "skipTests": true
+        },
+        "@ionic/angular-toolkit:service": {
+          "skipTests": true
         }
       },
       "root": "",
@@ -78,9 +87,6 @@
             },
             "development": {
               "buildTarget": "app:build:development"
-            },
-            "ci": {
-              "progress": false
             }
           },
           "defaultConfiguration": "development"
