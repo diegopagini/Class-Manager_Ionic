@@ -18,6 +18,11 @@
         },
         "@ionic/angular-toolkit:service": {
           "skipTests": true
+        },
+        "@schematics/angular:component": {
+          "standalone": true,
+          "skipTests": true,
+          "changeDetection": "OnPush"
         }
       },
       "root": "",
