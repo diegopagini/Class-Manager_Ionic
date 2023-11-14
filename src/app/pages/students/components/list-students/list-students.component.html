@@ -1,0 +1,18 @@
+<ion-grid>
+  <ion-row>
+    @if(!showForm()) {
+    <ion-col>
+      <ion-row>
+        <ion-col>
+          <app-list-data
+            (add)="onShowForm()"
+            [data]="students()"
+            addText="label.add.student"
+            emptyText="label.no.students"
+          ></app-list-data>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+    } @else {}
+  </ion-row>
+</ion-grid>

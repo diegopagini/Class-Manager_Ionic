@@ -8,7 +8,12 @@ import {
 } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { cashOutline, peopleOutline, schoolOutline } from 'ionicons/icons';
+import {
+  addOutline,
+  cashOutline,
+  peopleOutline,
+  schoolOutline,
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-tabs',
@@ -28,6 +33,6 @@ export class TabsPage {
   public environmentInjector = inject(EnvironmentInjector);
 
   constructor() {
-    addIcons({ peopleOutline, schoolOutline, cashOutline });
+    addIcons({ peopleOutline, schoolOutline, cashOutline, addOutline });
   }
 }

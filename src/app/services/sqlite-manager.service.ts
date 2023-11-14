@@ -6,6 +6,8 @@ import { Preferences } from '@capacitor/preferences';
 import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 
+import { Student } from '../models/student';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -91,5 +93,30 @@ export class SqliteManagerService {
     }
 
     return this.dbName;
+  }
+
+  async getStudents(): Promise<Student[]> {
+    const sql = 'SELECT * FROM students WHERE active = 1';
+    const dbName = await this.getDbName();
+
+    try {
+      const response = await CapacitorSQLite.query({
+        database: dbName,
+        statement: sql,
+        values: [],
+      });
+
+      const students: Student[] = [];
+
+      for (let index = 0; index < response.values!.length; index++) {
+        const student = response.values![index] as Student;
+        students.push(student);
+      }
+
+      return Promise.resolve(students);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
   }
 }

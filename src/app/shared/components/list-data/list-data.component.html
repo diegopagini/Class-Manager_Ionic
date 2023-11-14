@@ -1,3 +1,32 @@
-<p>
-  list-data works!
-</p>
+@if( showAdd ) {
+<ion-row>
+  <ion-col>
+    <ion-item (click)="addData()">
+      <ion-label *ngIf="addText">{{ addText | translate }}</ion-label>
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-item>
+  </ion-col>
+</ion-row>
+}
+
+<!-- Empty state -->
+@if( data && data.length === 0 ) {
+<ion-row>
+  <ion-col>
+    <ion-text *ngIf="emptyText">{{ emptyText | translate }}</ion-text>
+  </ion-col>
+</ion-row>
+}
+
+<!-- List -->
+@if( data.length > 0 ) {
+<!-- For -->
+@for ( item of data; track $index ) {
+<ion-row>
+  <ion-col>
+    <ng-template
+      *ngTemplateOutlet="templateData; context: { item }"
+    ></ng-template>
+  </ion-col>
+</ion-row>
+} }

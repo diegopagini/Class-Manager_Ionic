@@ -1,20 +1,17 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { ListStudentsComponent } from './components/list-students/list-students.component';
 
 @Component({
   selector: 'app-students',
   templateUrl: './students.page.html',
   styleUrls: ['./students.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, ListStudentsComponent, TranslateModule],
 })
-export class StudentsPage implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class StudentsPage {
+  constructor() {}
 }
