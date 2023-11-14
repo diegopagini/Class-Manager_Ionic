@@ -4,12 +4,24 @@
     <ion-col>
       <ion-row>
         <ion-col>
+          <ion-searchbar (ionInput)="filterList($event)"></ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
           <app-list-data
             (add)="onShowForm()"
             [data]="students()"
             addText="label.add.student"
             emptyText="label.no.students"
-          ></app-list-data>
+          >
+            <ng-template #templateData let-item="item">
+              <ion-item>
+                <ion-label>{{ item.name + " " + item.surname }}</ion-label>
+              </ion-item>
+            </ng-template>
+          </app-list-data>
         </ion-col>
       </ion-row>
     </ion-col>

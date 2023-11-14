@@ -32,9 +32,14 @@ export class ListStudentsComponent implements OnInit {
     this.showForm.set(true);
   }
 
-  getStudents(): void {
-    this._sqliteService.getStudents().then((value: Student[]) => {
+  getStudents(search?: string): void {
+    this._sqliteService.getStudents(search).then((value: Student[]) => {
       this.students.set(value);
     });
+  }
+
+  filterList(event: any): void {
+    const { value } = event.detail;
+    this.getStudents(value);
   }
 }
