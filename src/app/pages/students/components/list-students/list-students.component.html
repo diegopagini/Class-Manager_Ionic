@@ -1,6 +1,6 @@
 <ion-grid>
   <ion-row>
-    @if(!showForm()) {
+    @if( !showForm() ) {
     <ion-col>
       <ion-row>
         <ion-col>
@@ -25,6 +25,11 @@
         </ion-col>
       </ion-row>
     </ion-col>
-    } @else {}
+    } @else {
+    <app-student-form
+      [student]="studentSelected"
+      (closeForm)="onClose()"
+    ></app-student-form>
+    }
   </ion-row>
 </ion-grid>

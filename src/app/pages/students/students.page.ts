@@ -10,7 +10,7 @@ import { ListStudentsComponent } from './components/list-students/list-students.
   templateUrl: './students.page.html',
   styleUrls: ['./students.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ListStudentsComponent, TranslateModule],
+  imports: [CommonModule, IonicModule, ListStudentsComponent, TranslateModule],
 })
 export class StudentsPage {
   constructor() {}
