@@ -36,6 +36,7 @@
     "copyfiles": "^2.4.1",
     "ionicons": "^7.2.1",
     "jeep-sqlite": "^2.5.4",
+    "moment": "^2.29.4",
     "rxjs": "~7.8.1",
     "sql.js": "^1.8.0",
     "tslib": "^2.6.2",

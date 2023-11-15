@@ -188,6 +188,30 @@ export class SqliteManagerService {
     }
   }
 
+  async deleteStudent(student: Student): Promise<capSQLiteChanges> {
+    const sql = `UPDATE students SET active=0 WHERE id=?`;
+    const dbName = await this.getDbName();
+
+    try {
+      const changes = await CapacitorSQLite.executeSet({
+        database: dbName,
+        set: [
+          {
+            statement: sql,
+            values: [student.id],
+          },
+        ],
+      });
+      // Only for web.
+      if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
+
+      return Promise.resolve(changes);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
   async getClasses() {
     let sql = 'SELECT * FROM class WHERE active=1';
     sql += ' ORDER BY date_start,date_end';
