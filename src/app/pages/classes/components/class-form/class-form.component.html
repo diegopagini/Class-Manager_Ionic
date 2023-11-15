@@ -1,3 +1,77 @@
-<p>
-  class-form works!
-</p>
+<form [formGroup]="classForm" (ngSubmit)="createUpdateClass()">
+  <ion-item>
+    <ion-label>{{ "label.class.date.start" | translate }}</ion-label>
+    <ion-datetime-button
+      slot="end"
+      displayFormat="DD MMM yyyy HH MM"
+      datetime="date_start"
+    ></ion-datetime-button>
+    <!-- To connect datetime button with ion datetime "date_start" -->
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime
+          id="date_start"
+          formControlName="date_start"
+        ></ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>{{ "label.class.date.end" | translate }}</ion-label>
+    <ion-datetime-button
+      slot="end"
+      displayFormat="DD MMM yyyy HH MM"
+      datetime="date_end"
+    ></ion-datetime-button>
+    <!-- To connect datetime button with ion datetime "date_end" -->
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="date_end" formControlName="date_end"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
+
+  <ion-item>
+    <ion-select
+      [label]="'label.form.class.student' | translate"
+      formControlName="student"
+    >
+      @for (student of students(); track student.id) {
+      <ion-select-option [value]="student.id">{{
+        student.name + " " + student.surname
+      }}</ion-select-option>
+      }
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-range
+      [label]="'label.form.class.price' | translate"
+      formControlName="price"
+      max="100"
+      min="0"
+    ></ion-range>
+    <ion-text>{{ classForm.get("price").value }}€</ion-text>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button expand="block" type="button" (click)="close()">{{
+          "label.back" | translate
+        }}</ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button
+          [disabled]="!classForm.valid"
+          expand="block"
+          type="submit"
+          >{{
+            (update() ? "label.edit.class" : "label.add.class") | translate
+          }}</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>
