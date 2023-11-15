@@ -20,7 +20,8 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "useDefineForClassFields": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

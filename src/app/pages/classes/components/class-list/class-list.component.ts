@@ -12,16 +12,25 @@ import { Student } from 'src/app/models/student';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 import { ListDataComponent } from 'src/app/shared/components/list-data/list-data.component';
 
+import { ClassFormComponent } from '../class-form/class-form.component';
+
 @Component({
   selector: 'app-class-list',
   templateUrl: './class-list.component.html',
   styleUrls: ['./class-list.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonicModule, CommonModule, TranslateModule, ListDataComponent],
+  imports: [
+    IonicModule,
+    CommonModule,
+    TranslateModule,
+    ListDataComponent,
+    ClassFormComponent,
+  ],
 })
 export class ClassListComponent implements OnInit {
-  classes = signal<ClassI[]>(null as any);
+  classes = signal<ClassI[]>(null);
+  selectedClass = signal<ClassI>(null);
   showForm = signal<boolean>(false);
 
   constructor(private _sqliteService: SqliteManagerService) {}
@@ -31,6 +40,10 @@ export class ClassListComponent implements OnInit {
 
   onShowForm(): void {
     this.showForm.set(true);
+  }
+
+  onCloseForm(): void {
+    this.showForm.set(false);
   }
 
   getClasses(): void {

@@ -1,7 +1,10 @@
 <ion-grid>
   @if ( showForm() ) {
   <ion-row>
-    <ion-col> </ion-col>
+    <ion-col>
+      <app-class-form [classObj]="selectedClass()" (closeForm)="onCloseForm()">
+      </app-class-form>
+    </ion-col>
   </ion-row>
   } @else {
   <app-list-data
