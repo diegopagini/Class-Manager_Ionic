@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CapacitorSQLite, JsonSQLite } from '@capacitor-community/sqlite';
+import {
+  CapacitorSQLite,
+  capSQLiteChanges,
+  JsonSQLite,
+} from '@capacitor-community/sqlite';
 import { Device } from '@capacitor/device';
 import { Preferences } from '@capacitor/preferences';
 import { AlertController } from '@ionic/angular';
@@ -117,6 +121,35 @@ export class SqliteManagerService {
       }
 
       return Promise.resolve(students);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
+  async createStudent(student: Student): Promise<capSQLiteChanges> {
+    let sql = `INSERT INTO students(name, surname, email, phone) VALUES(?,?,?,?)`;
+    const dbName = await this.getDbName();
+
+    try {
+      const changes = await CapacitorSQLite.executeSet({
+        database: dbName,
+        set: [
+          {
+            statement: sql,
+            values: [
+              student.name,
+              student.surname,
+              student.email,
+              student.phone,
+            ],
+          },
+        ],
+      });
+      // Only for web.
+      if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
+
+      return Promise.resolve(changes);
     } catch (error) {
       console.error(error);
       return Promise.reject(error);

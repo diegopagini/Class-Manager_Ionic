@@ -7,10 +7,16 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Student } from 'src/app/models/student';
+import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 
 @Component({
@@ -19,24 +25,49 @@ import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
   styleUrls: ['./student-form.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, IonicModule, CommonModule],
+  imports: [ReactiveFormsModule, IonicModule, CommonModule, TranslateModule],
 })
 export class StudentFormComponent implements OnInit {
   @Input() student: Student;
-  @Output() closeForm = new EventEmitter<void>();
+  @Output() closeForm = new EventEmitter<boolean>();
   update: boolean;
+  studentForm: FormGroup;
 
   constructor(
+    private _alert: AlertService,
+    private _fb: FormBuilder,
     private _sqliteService: SqliteManagerService,
     private _translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
-    if (this.student) this.student = new Student();
+    if (!this.student) this.student = new Student();
     else this.update = true;
+
+    this.studentForm = this._fb.group({
+      name: [null, [Validators.required]],
+      surname: [null, [Validators.required]],
+      email: [null, [Validators.required]],
+      phone: [null, [Validators.required]],
+    });
   }
 
-  close(): void {
-    this.closeForm.emit();
+  close(changes?: boolean): void {
+    this.closeForm.emit(changes);
+  }
+
+  createUpdateStudent(): void {
+    if (this.update) {
+      return;
+    }
+
+    this._sqliteService.createStudent(this.studentForm.value).then(() => {
+      this._alert.alertMessage(
+        this._translateService.instant('label.success'),
+        this._translateService.instant('label.success.message.add.student')
+      );
+
+      this.close(true);
+    });
   }
 }

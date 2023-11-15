@@ -52,7 +52,8 @@ export class ListStudentsComponent implements OnInit {
     this.getStudents(value);
   }
 
-  onClose(): void {
+  onClose(changes: boolean): void {
     this.showForm.set(false);
+    if (changes) this.getStudents();
   }
 }

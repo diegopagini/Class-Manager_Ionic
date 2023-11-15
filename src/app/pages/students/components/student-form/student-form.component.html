@@ -1,3 +1,53 @@
-<p>
-  student-form works!
-</p>
+<form [formGroup]="studentForm" (ngSubmit)="createUpdateStudent()">
+  <ion-item>
+    <ion-input
+      [label]="'label.form.student.name' | translate"
+      type="text"
+      formControlName="name"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      [label]="'label.form.student.surname' | translate"
+      type="text"
+      formControlName="surname"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      [label]="'label.form.student.email' | translate"
+      type="email"
+      formControlName="email"
+    ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      [label]="'label.form.student.phone' | translate"
+      type="phone"
+      formControlName="phone"
+    ></ion-input>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button expand="block" type="button" (click)="close()">{{
+          "label.back" | translate
+        }}</ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button
+          [disabled]="!studentForm.valid"
+          expand="block"
+          type="submit"
+          >{{
+            (update ? "label.edit.student" : "label.add.student") | translate
+          }}</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>
