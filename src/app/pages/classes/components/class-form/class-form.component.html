@@ -35,7 +35,7 @@
   <ion-item>
     <ion-select
       [label]="'label.form.class.student' | translate"
-      formControlName="student"
+      formControlName="id_student"
     >
       @for (student of students(); track student.id) {
       <ion-select-option [value]="student.id">{{

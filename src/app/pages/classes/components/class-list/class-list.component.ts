@@ -42,8 +42,9 @@ export class ClassListComponent implements OnInit {
     this.showForm.set(true);
   }
 
-  onCloseForm(): void {
+  onCloseForm(changes: boolean): void {
     this.showForm.set(false);
+    if (changes) this.getClasses();
   }
 
   getClasses(): void {

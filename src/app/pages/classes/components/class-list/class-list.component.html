@@ -2,7 +2,10 @@
   @if ( showForm() ) {
   <ion-row>
     <ion-col>
-      <app-class-form [classObj]="selectedClass()" (closeForm)="onCloseForm()">
+      <app-class-form
+        [classObj]="selectedClass()"
+        (closeForm)="onCloseForm($event)"
+      >
       </app-class-form>
     </ion-col>
   </ion-row>

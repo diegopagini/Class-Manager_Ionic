@@ -237,4 +237,34 @@ export class SqliteManagerService {
       return Promise.reject(error);
     }
   }
+
+  async createClass(classObj: ClassI): Promise<capSQLiteChanges> {
+    const sql =
+      'INSERT INTO class(date_start, date_end, id_student, price) VALUES(?,?,?,?)';
+    const dbName = await this.getDbName();
+
+    try {
+      const changes = await CapacitorSQLite.executeSet({
+        database: dbName,
+        set: [
+          {
+            statement: sql,
+            values: [
+              classObj.date_start,
+              classObj.date_end,
+              classObj.id_student,
+              classObj.price,
+            ],
+          },
+        ],
+      });
+      // Only for web.
+      if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
+
+      return Promise.resolve(changes);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
 }
