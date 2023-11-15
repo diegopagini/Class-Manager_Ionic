@@ -10,6 +10,7 @@ import { Preferences } from '@capacitor/preferences';
 import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 
+import { ClassI } from '../models/classes';
 import { Student } from '../models/student';
 
 @Injectable({
@@ -181,6 +182,32 @@ export class SqliteManagerService {
       if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
 
       return Promise.resolve(changes);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
+  async getClasses() {
+    let sql = 'SELECT * FROM class WHERE active=1';
+    sql += ' ORDER BY date_start,date_end';
+
+    const dbName = await this.getDbName();
+
+    try {
+      const response = await CapacitorSQLite.query({
+        database: dbName,
+        statement: sql,
+        values: [],
+      });
+
+      const classes: ClassI[] = [];
+
+      for (const item of response!.values!) {
+        classes.push(item);
+      }
+
+      return Promise.resolve(classes);
     } catch (error) {
       console.error(error);
       return Promise.reject(error);

@@ -19,7 +19,7 @@
 }
 
 <!-- List -->
-@if( data.length > 0 ) {
+@if( data && data.length > 0 ) {
 <!-- For -->
 @for ( item of data; track $index ) {
 <ion-row>

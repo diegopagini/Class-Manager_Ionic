@@ -1,0 +1,25 @@
+<ion-grid>
+  @if ( showForm() ) {
+  <ion-row>
+    <ion-col> </ion-col>
+  </ion-row>
+  } @else {
+  <app-list-data
+    (add)="onShowForm()"
+    [data]="classes()"
+    addText="label.add.class"
+    emptyText="label.no.clases"
+  >
+    <ng-template #templateData let-item="item">
+      <ion-item>
+        <ion-label class="ion-text-wrap"
+          >{{ item.student?.name + " " + item.student?.surname }} -
+          {{ item.date_start | date : "dd MMM yyyy HH:mm" }} -
+          {{ item.date_end | date : "HH:mm" }} |
+          {{ item.price + " €" }}
+        </ion-label>
+      </ion-item>
+    </ng-template>
+  </app-list-data>
+  }
+</ion-grid>
