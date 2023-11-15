@@ -54,6 +54,16 @@ export class ListStudentsComponent implements OnInit {
 
   onClose(changes: boolean): void {
     this.showForm.set(false);
+    this.studentSelected = null as any;
     if (changes) this.getStudents();
+  }
+
+  updateStudent(student: Student) {
+    this.studentSelected = student;
+    this.showForm.set(true);
+  }
+
+  deleteStudent(student: Student) {
+    this.studentSelected = student;
   }
 }

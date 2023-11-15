@@ -128,7 +128,8 @@ export class SqliteManagerService {
   }
 
   async createStudent(student: Student): Promise<capSQLiteChanges> {
-    let sql = `INSERT INTO students(name, surname, email, phone) VALUES(?,?,?,?)`;
+    const sql =
+      'INSERT INTO students(name, surname, email, phone) VALUES(?,?,?,?)';
     const dbName = await this.getDbName();
 
     try {
@@ -142,6 +143,36 @@ export class SqliteManagerService {
               student.surname,
               student.email,
               student.phone,
+            ],
+          },
+        ],
+      });
+      // Only for web.
+      if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
+
+      return Promise.resolve(changes);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
+  async updateStudent(student: Student): Promise<capSQLiteChanges> {
+    const sql = `UPDATE students SET name=?, surname=?, email=?, phone=? WHERE id=?`;
+    const dbName = await this.getDbName();
+
+    try {
+      const changes = await CapacitorSQLite.executeSet({
+        database: dbName,
+        set: [
+          {
+            statement: sql,
+            values: [
+              student.name,
+              student.surname,
+              student.email,
+              student.phone,
+              student.id,
             ],
           },
         ],

@@ -45,10 +45,11 @@ export class StudentFormComponent implements OnInit {
     else this.update = true;
 
     this.studentForm = this._fb.group({
-      name: [null, [Validators.required]],
-      surname: [null, [Validators.required]],
-      email: [null, [Validators.required]],
-      phone: [null, [Validators.required]],
+      name: [this.student.name || null, [Validators.required]],
+      surname: [this.student.surname || null, [Validators.required]],
+      email: [this.student.email || null, [Validators.required]],
+      phone: [this.student.phone || null, [Validators.required]],
+      id: [this.student.id || null],
     });
   }
 
@@ -58,6 +59,15 @@ export class StudentFormComponent implements OnInit {
 
   createUpdateStudent(): void {
     if (this.update) {
+      this._sqliteService.updateStudent(this.studentForm.value).then(() => {
+        this._alert.alertMessage(
+          this._translateService.instant('label.success'),
+          this._translateService.instant('label.success.message.edit.student')
+        );
+
+        this.close(true);
+      });
+
       return;
     }
 

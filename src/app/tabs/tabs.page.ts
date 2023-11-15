@@ -11,8 +11,10 @@ import { addIcons } from 'ionicons';
 import {
   addOutline,
   cashOutline,
+  pencilOutline,
   peopleOutline,
   schoolOutline,
+  trashOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -33,6 +35,13 @@ export class TabsPage {
   public environmentInjector = inject(EnvironmentInjector);
 
   constructor() {
-    addIcons({ peopleOutline, schoolOutline, cashOutline, addOutline });
+    addIcons({
+      addOutline,
+      cashOutline,
+      pencilOutline,
+      peopleOutline,
+      schoolOutline,
+      trashOutline,
+    });
   }
 }
