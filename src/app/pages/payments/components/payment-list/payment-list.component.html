@@ -1,11 +1,34 @@
 <ion-grid>
   <ion-row>
     <ion-col>
+      @if (total()) {
+      <ion-item>
+        <ion-label>{{ "label.total" | translate }}</ion-label>
+        <ion-text>{{ total() }}€</ion-text>
+      </ion-item>
+      }
+
       <app-list-data
         [data]="payments()"
         [emptyText]="'label.no.payment' | translate"
         [showAdd]="false"
       >
+        <ng-template #templateData let-item="item">
+          <ion-item [ngClass]="{ 'no-paid': !item.paid, paid: item.paid }">
+            <ion-label class="ion-text-wrap">
+              {{
+                item.class?.student?.name + " " + item.class?.student?.surname
+              }}
+              -
+              {{
+                (item.date ? item.date : item.class?.date_start)
+                  | date : "dd MMM yyyy HH:mm"
+              }}
+              -
+              {{ (item.paid ? "label.paid" : "label.no.paid") | translate }}
+            </ion-label>
+          </ion-item>
+        </ng-template>
       </app-list-data>
     </ion-col>
   </ion-row>

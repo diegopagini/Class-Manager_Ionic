@@ -17,6 +17,7 @@ import { ListDataComponent } from 'src/app/shared/components/list-data/list-data
 })
 export class PaymentListComponent implements OnInit {
   payments = signal<Payment[]>(null);
+  total = signal<number>(null);
 
   constructor(private _sqliteService: SqliteManagerService) {}
 
@@ -32,6 +33,7 @@ export class PaymentListComponent implements OnInit {
     ]).then(([payments, classes, students]) => {
       this.payments.set(payments);
       this.associateObjects(classes, students);
+      this.calculateTotal();
     });
   }
 
@@ -47,6 +49,15 @@ export class PaymentListComponent implements OnInit {
 
         return payment;
       })
+    );
+  }
+
+  private calculateTotal(): void {
+    this.total.set(
+      this.payments().reduce(
+        (acum: number, payment: Payment) => acum + payment.class.price,
+        0
+      )
     );
   }
 }
