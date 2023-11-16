@@ -1,2 +1,1 @@
 # Class-Manager_Ionic
-
