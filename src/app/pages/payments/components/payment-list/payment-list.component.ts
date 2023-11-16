@@ -24,7 +24,7 @@ import { ListDataComponent } from 'src/app/shared/components/list-data/list-data
   ],
 })
 export class PaymentListComponent implements OnInit {
-  filter = signal<Filter>(null);
+  filter = signal<Filter>({ paid: null });
   payments = signal<Payment[]>(null);
   total = signal<number>(null);
 
@@ -34,17 +34,23 @@ export class PaymentListComponent implements OnInit {
     this.getPayments();
   }
 
-  filterData(filter: Filter): void {}
+  filterData(filter: Filter): void {
+    this.filter.set(filter);
+    this.getPayments();
+  }
 
   private getPayments(): void {
     Promise.all([
-      this._sqliteService.getPayments(),
+      this._sqliteService.getPayments(this.filter()),
       this._sqliteService.getClasses(),
       this._sqliteService.getStudents(),
     ]).then(([payments, classes, students]) => {
       this.payments.set(payments);
       this.associateObjects(classes, students);
       this.calculateTotal();
+      this.filter.set({
+        paid: null,
+      });
     });
   }
 

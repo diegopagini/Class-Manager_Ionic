@@ -40,7 +40,7 @@ export class FilterContentComponent implements OnInit {
       ],
       date_end: [this.filter?.date_end || moment().format('YYYY-MM-DDTHH:mm')],
       id_student: [this.filter?.id_student || null],
-      payment: [null],
+      paid: [this.filter.paid || false],
     });
 
     this._sqliteService.getStudents().then((value: Student[]) => {

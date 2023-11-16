@@ -330,9 +330,21 @@ export class SqliteManagerService {
     }
   }
 
-  async getPayments(): Promise<Payment[]> {
+  async getPayments(filters?: Filter): Promise<Payment[]> {
     let sql =
       'SELECT p.* FROM payment p, class c WHERE p.id_class = c.id and c.active=1';
+    if (filters?.paid === true) sql += ` and p.paid = 1`;
+    if (filters?.paid === false) sql += ` and p.paid = 0`;
+    if (filters?.date_start && filters?.paid === true)
+      sql += ` and p.date >= '${filters.date_start}'`;
+    if (filters?.date_start && filters?.paid === false)
+      sql += ` and c.date_start >= '${filters.date_start}'`;
+    if (filters?.date_end && filters.paid === true)
+      sql += ` and p.date <= '${filters.date_start}'`;
+    if (filters?.date_end && filters.paid === false)
+      sql += ` and c.date_end <= '${filters.date_start}'`;
+    if (filters?.id_student)
+      sql += ` and c.id_student = '${filters.id_student}'`;
     sql += ` ORDER BY p.date`;
 
     const dbName = await this.getDbName();
