@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { ClassI } from '../models/classes';
 import { Filter } from '../models/filter';
+import { Payment } from '../models/payment';
 import { Student } from '../models/student';
 
 @Injectable({
@@ -323,6 +324,33 @@ export class SqliteManagerService {
       if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
 
       return Promise.resolve(changes);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
+  async getPayments(): Promise<Payment[]> {
+    let sql =
+      'SELECT p.* FROM payment p, class c WHERE p.id_class = c.id and c.active=1';
+    sql += ` ORDER BY p.date`;
+
+    const dbName = await this.getDbName();
+
+    try {
+      const response = await CapacitorSQLite.query({
+        database: dbName,
+        statement: sql,
+        values: [],
+      });
+
+      const payments: Payment[] = [];
+
+      for (const item of response!.values!) {
+        payments.push(item as Payment);
+      }
+
+      return Promise.resolve(payments);
     } catch (error) {
       console.error(error);
       return Promise.reject(error);

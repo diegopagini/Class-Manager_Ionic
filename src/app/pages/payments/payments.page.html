@@ -1,7 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>payments</ion-title>
+    <ion-title>{{"label.app" | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"> </ion-content>
+<ion-content [fullscreen]="true">
+  <app-payment-list></app-payment-list>
+</ion-content>

@@ -1,0 +1,12 @@
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <app-list-data
+        [data]="payments()"
+        [emptyText]="'label.no.payment' | translate"
+        [showAdd]="false"
+      >
+      </app-list-data>
+    </ion-col>
+  </ion-row>
+</ion-grid>
