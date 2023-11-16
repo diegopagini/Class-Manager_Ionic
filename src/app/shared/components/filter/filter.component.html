@@ -1,0 +1,10 @@
+<ion-row>
+  <ion-col>
+    <ion-button expand="block" (click)="toggleFilter($event)">
+      {{
+        (showFilters() ? "label.hide.filters" : "label.show.filters")
+          | translate
+      }}
+    </ion-button>
+  </ion-col>
+</ion-row>

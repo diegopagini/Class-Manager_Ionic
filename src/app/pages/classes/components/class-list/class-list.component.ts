@@ -11,6 +11,7 @@ import { ClassI } from 'src/app/models/classes';
 import { Student } from 'src/app/models/student';
 import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
+import { FilterComponent } from 'src/app/shared/components/filter/filter.component';
 import { ListDataComponent } from 'src/app/shared/components/list-data/list-data.component';
 
 import { ClassFormComponent } from '../class-form/class-form.component';
@@ -22,11 +23,12 @@ import { ClassFormComponent } from '../class-form/class-form.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    IonicModule,
-    CommonModule,
-    TranslateModule,
-    ListDataComponent,
     ClassFormComponent,
+    CommonModule,
+    FilterComponent,
+    IonicModule,
+    ListDataComponent,
+    TranslateModule,
   ],
 })
 export class ClassListComponent implements OnInit {

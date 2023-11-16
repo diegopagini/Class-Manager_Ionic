@@ -10,6 +10,9 @@
     </ion-col>
   </ion-row>
   } @else {
+
+  <app-filter></app-filter>
+
   <app-list-data
     (add)="onShowForm()"
     [data]="classes()"
