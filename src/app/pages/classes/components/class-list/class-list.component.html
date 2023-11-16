@@ -11,7 +11,7 @@
   </ion-row>
   } @else {
 
-  <app-filter [filter]="filter"></app-filter>
+  <app-filter [filter]="filter" (filterData)="filterData($event)"></app-filter>
 
   <app-list-data
     (add)="onShowForm()"

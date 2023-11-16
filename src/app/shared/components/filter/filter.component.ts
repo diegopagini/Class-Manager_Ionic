@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   signal,
 } from '@angular/core';
 import { IonicModule, PopoverController } from '@ionic/angular';
@@ -21,6 +23,7 @@ import { FilterContentComponent } from './filter-content/filter-content.componen
 })
 export class FilterComponent {
   @Input({ required: true }) filter: Filter;
+  @Output() filterData = new EventEmitter<Filter>();
   showFilters = signal<boolean>(false);
 
   constructor(private _popoverController: PopoverController) {}
@@ -36,7 +39,8 @@ export class FilterComponent {
       event,
     });
 
-    popover.onDidDismiss().then(() => {
+    popover.onDidDismiss().then(({ data }) => {
+      if (data) this.filterData.emit(data);
       this.showFilters.set(false);
     });
 

@@ -7,8 +7,9 @@ import {
   signal,
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, PopoverController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { Filter } from 'src/app/models/filter';
 import { Student } from 'src/app/models/student';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
@@ -28,12 +29,15 @@ export class FilterContentComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
+    private _popoverController: PopoverController,
     private _sqliteService: SqliteManagerService
   ) {}
   ngOnInit(): void {
     this.filterForm = this._fb.group({
-      date_start: [this.filter?.date_start || null],
-      date_end: [this.filter?.date_end || null],
+      date_start: [
+        this.filter?.date_start || moment().format('YYYY-MM-DDTHH:mm'),
+      ],
+      date_end: [this.filter?.date_end || moment().format('YYYY-MM-DDTHH:mm')],
       id_student: [this.filter?.id_student || null],
     });
 
@@ -42,7 +46,15 @@ export class FilterContentComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    this._popoverController.dismiss(this.filterForm.value);
+  }
 
-  reset(): void {}
+  reset(): void {
+    this._popoverController.dismiss({
+      date_start: null,
+      date_end: null,
+      id_student: null,
+    });
+  }
 }

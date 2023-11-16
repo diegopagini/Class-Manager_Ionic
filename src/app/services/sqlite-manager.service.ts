@@ -11,6 +11,7 @@ import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 
 import { ClassI } from '../models/classes';
+import { Filter } from '../models/filter';
 import { Student } from '../models/student';
 
 @Injectable({
@@ -212,8 +213,11 @@ export class SqliteManagerService {
     }
   }
 
-  async getClasses(): Promise<ClassI[]> {
+  async getClasses(filter?: Filter): Promise<ClassI[]> {
     let sql = 'SELECT * FROM class WHERE active=1';
+    if (filter?.date_start) sql += ` and date_start >= '${filter.date_start}'`;
+    if (filter?.date_end) sql += ` and date_end <= '${filter.date_end}'`;
+    if (filter?.id_student) sql += ` and id_student = '${filter.id_student}'`;
     sql += ' ORDER BY date_start,date_end';
 
     const dbName = await this.getDbName();

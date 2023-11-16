@@ -59,7 +59,7 @@ export class ClassListComponent implements OnInit {
 
   getClasses(): void {
     Promise.all([
-      this._sqliteService.getClasses(),
+      this._sqliteService.getClasses(this.filter),
       this._sqliteService.getStudents(),
     ]).then(([classes, students]) => {
       this.classes.set(classes);
@@ -95,6 +95,11 @@ export class ClassListComponent implements OnInit {
           });
       },
     });
+  }
+
+  filterData(data: Filter): void {
+    this.filter = data;
+    this.getClasses();
   }
 
   private associateStudentsClasses(students: Student[]): void {
