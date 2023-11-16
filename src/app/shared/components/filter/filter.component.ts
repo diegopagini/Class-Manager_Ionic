@@ -23,6 +23,7 @@ import { FilterContentComponent } from './filter-content/filter-content.componen
 })
 export class FilterComponent {
   @Input({ required: true }) filter: Filter;
+  @Input() payment = false;
   @Output() filterData = new EventEmitter<Filter>();
   showFilters = signal<boolean>(false);
 
@@ -35,6 +36,7 @@ export class FilterComponent {
       cssClass: 'custom-popover-content',
       componentProps: {
         filter: this.filter,
+        payment: this.payment,
       },
       event,
     });

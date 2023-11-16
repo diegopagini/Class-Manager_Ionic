@@ -19,11 +19,12 @@ import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
   templateUrl: './filter-content.component.html',
   styleUrls: ['./filter-content.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, TranslateModule],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterContentComponent implements OnInit {
   @Input({ required: true }) filter: Filter;
+  @Input({ required: true }) payment: boolean;
   filterForm: FormGroup;
   students = signal<Student[]>(null);
 
@@ -39,6 +40,7 @@ export class FilterContentComponent implements OnInit {
       ],
       date_end: [this.filter?.date_end || moment().format('YYYY-MM-DDTHH:mm')],
       id_student: [this.filter?.id_student || null],
+      payment: [null],
     });
 
     this._sqliteService.getStudents().then((value: Student[]) => {
@@ -55,6 +57,7 @@ export class FilterContentComponent implements OnInit {
       date_start: null,
       date_end: null,
       id_student: null,
+      payment: null,
     });
   }
 }

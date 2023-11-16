@@ -1,6 +1,12 @@
 <ion-grid>
   <ion-row>
     <ion-col>
+      <app-filter
+        (filterData)="filterData($event)"
+        [filter]="filter()"
+        [payment]="true"
+      ></app-filter>
+
       @if (total()) {
       <ion-item>
         <ion-label>{{ "label.total" | translate }}</ion-label>

@@ -3,9 +3,11 @@ import { Component, OnInit, signal } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClassI } from 'src/app/models/classes';
+import { Filter } from 'src/app/models/filter';
 import { Payment } from 'src/app/models/payment';
 import { Student } from 'src/app/models/student';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
+import { FilterComponent } from 'src/app/shared/components/filter/filter.component';
 import { ListDataComponent } from 'src/app/shared/components/list-data/list-data.component';
 
 @Component({
@@ -13,9 +15,16 @@ import { ListDataComponent } from 'src/app/shared/components/list-data/list-data
   templateUrl: './payment-list.component.html',
   styleUrls: ['./payment-list.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, TranslateModule, ListDataComponent],
+  imports: [
+    CommonModule,
+    FilterComponent,
+    IonicModule,
+    ListDataComponent,
+    TranslateModule,
+  ],
 })
 export class PaymentListComponent implements OnInit {
+  filter = signal<Filter>(null);
   payments = signal<Payment[]>(null);
   total = signal<number>(null);
 
@@ -24,6 +33,8 @@ export class PaymentListComponent implements OnInit {
   ngOnInit(): void {
     this.getPayments();
   }
+
+  filterData(filter: Filter): void {}
 
   private getPayments(): void {
     Promise.all([
