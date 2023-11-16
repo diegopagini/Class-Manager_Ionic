@@ -6,9 +6,10 @@ import {
   signal,
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClassI } from 'src/app/models/classes';
 import { Student } from 'src/app/models/student';
+import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 import { ListDataComponent } from 'src/app/shared/components/list-data/list-data.component';
 
@@ -33,7 +34,11 @@ export class ClassListComponent implements OnInit {
   selectedClass = signal<ClassI>(null);
   showForm = signal<boolean>(false);
 
-  constructor(private _sqliteService: SqliteManagerService) {}
+  constructor(
+    private _alert: AlertService,
+    private _translate: TranslateService,
+    private _sqliteService: SqliteManagerService
+  ) {}
   ngOnInit(): void {
     this.getClasses();
   }
@@ -44,6 +49,7 @@ export class ClassListComponent implements OnInit {
 
   onCloseForm(changes: boolean): void {
     this.showForm.set(false);
+    this.selectedClass.set(null);
     if (changes) this.getClasses();
   }
 
@@ -56,6 +62,13 @@ export class ClassListComponent implements OnInit {
       this.associateStudentsClasses(students);
     });
   }
+
+  updateClass(item: ClassI) {
+    this.selectedClass.set(item);
+    this.onShowForm();
+  }
+
+  deleteClass(item: ClassI) {}
 
   private associateStudentsClasses(students: Student[]): void {
     this.classes.update((classes: ClassI[]) =>

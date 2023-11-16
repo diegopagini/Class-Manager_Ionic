@@ -58,7 +58,26 @@ export class ClassFormComponent implements OnInit {
 
   createUpdateClass(): void {
     this.formartDate();
+
     if (this.update()) {
+      this._sqlservice
+        .updateClass(this.classForm.value)
+        .then(() => {
+          this._alert.alertMessage(
+            this._translate.instant('label.success'),
+            this._translate.instant('label.success.message.edit.class')
+          );
+
+          this.close(true);
+        })
+        .catch((error) => {
+          console.error(error);
+          this._alert.alertMessage(
+            this._translate.instant('label.error'),
+            this._translate.instant('label.error.message.edit.class')
+          );
+        });
+
       return;
     }
 
@@ -90,6 +109,7 @@ export class ClassFormComponent implements OnInit {
       date_end: [this.classObj?.date_end || null, [Validators.required]],
       date_start: [this.classObj?.date_start || null, [Validators.required]],
       id_student: [this.classObj?.id_student],
+      id: [this.classObj?.id || null],
       price: [this.classObj?.price || 0, [Validators.required]],
     });
   }

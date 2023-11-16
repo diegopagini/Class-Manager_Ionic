@@ -212,7 +212,7 @@ export class SqliteManagerService {
     }
   }
 
-  async getClasses() {
+  async getClasses(): Promise<ClassI[]> {
     let sql = 'SELECT * FROM class WHERE active=1';
     sql += ' ORDER BY date_start,date_end';
 
@@ -239,6 +239,69 @@ export class SqliteManagerService {
   }
 
   async createClass(classObj: ClassI): Promise<capSQLiteChanges> {
+    const sql =
+      'INSERT INTO class(date_start, date_end, id_student, price) VALUES(?,?,?,?)';
+    const dbName = await this.getDbName();
+
+    try {
+      const changes = await CapacitorSQLite.executeSet({
+        database: dbName,
+        set: [
+          {
+            statement: sql,
+            values: [
+              classObj.date_start,
+              classObj.date_end,
+              classObj.id_student,
+              classObj.price,
+            ],
+          },
+        ],
+      });
+      // Only for web.
+      if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
+
+      return Promise.resolve(changes);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
+  async updateClass(classObj: ClassI): Promise<capSQLiteChanges> {
+    console.log(classObj);
+
+    const sql =
+      'UPDATE class SET date_start=?, date_end=?, id_student=?, price=? WHERE id=?';
+    const dbName = await this.getDbName();
+
+    try {
+      const changes = await CapacitorSQLite.executeSet({
+        database: dbName,
+        set: [
+          {
+            statement: sql,
+            values: [
+              classObj.date_start,
+              classObj.date_end,
+              classObj.id_student,
+              classObj.price,
+              classObj.id,
+            ],
+          },
+        ],
+      });
+      // Only for web.
+      if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
+
+      return Promise.resolve(changes);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
+  async deleteClass(classObj: ClassI): Promise<capSQLiteChanges> {
     const sql =
       'INSERT INTO class(date_start, date_end, id_student, price) VALUES(?,?,?,?)';
     const dbName = await this.getDbName();
