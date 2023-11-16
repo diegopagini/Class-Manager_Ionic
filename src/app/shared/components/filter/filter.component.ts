@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  signal,
+} from '@angular/core';
 import { IonicModule, PopoverController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { Filter } from 'src/app/models/filter';
 
 import { FilterContentComponent } from './filter-content/filter-content.component';
 
@@ -14,6 +20,7 @@ import { FilterContentComponent } from './filter-content/filter-content.componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent {
+  @Input({ required: true }) filter: Filter;
   showFilters = signal<boolean>(false);
 
   constructor(private _popoverController: PopoverController) {}
@@ -22,7 +29,10 @@ export class FilterComponent {
     const popover = await this._popoverController.create({
       backdropDismiss: true,
       component: FilterContentComponent,
-      componentProps: {},
+      cssClass: 'custom-popover-content',
+      componentProps: {
+        filter: this.filter,
+      },
       event,
     });
 

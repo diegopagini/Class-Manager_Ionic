@@ -8,6 +8,7 @@ import {
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClassI } from 'src/app/models/classes';
+import { Filter } from 'src/app/models/filter';
 import { Student } from 'src/app/models/student';
 import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
@@ -33,6 +34,7 @@ import { ClassFormComponent } from '../class-form/class-form.component';
 })
 export class ClassListComponent implements OnInit {
   classes = signal<ClassI[]>(null);
+  filter: Filter;
   selectedClass = signal<ClassI>(null);
   showForm = signal<boolean>(false);
 
