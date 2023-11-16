@@ -68,7 +68,30 @@ export class ClassListComponent implements OnInit {
     this.onShowForm();
   }
 
-  deleteClass(item: ClassI) {}
+  deleteClass(item: ClassI) {
+    this._alert.alertConfirm({
+      header: this._translate.instant('label.confirm'),
+      message: this._translate.instant('label.confirm.message.class'),
+      functionOk: () => {
+        this._sqliteService
+          .deleteClass(item)
+          .then(async () => {
+            this._alert.alertMessage(
+              this._translate.instant('label.success'),
+              this._translate.instant('label.success.message.remove.class')
+            );
+            this.getClasses();
+          })
+          .catch((error) => {
+            console.error(error);
+            this._alert.alertMessage(
+              this._translate.instant('label.error'),
+              this._translate.instant('label.error.message.remove.class')
+            );
+          });
+      },
+    });
+  }
 
   private associateStudentsClasses(students: Student[]): void {
     this.classes.update((classes: ClassI[]) =>

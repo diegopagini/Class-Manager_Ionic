@@ -106,11 +106,22 @@ export class ClassFormComponent implements OnInit {
 
   private initForm(): void {
     this.classForm = this._fb.group({
-      date_end: [this.classObj?.date_end || null, [Validators.required]],
-      date_start: [this.classObj?.date_start || null, [Validators.required]],
-      id_student: [this.classObj?.id_student],
+      date_end: [
+        this.classObj?.date_end ||
+          moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+        [Validators.required],
+      ],
+      date_start: [
+        this.classObj?.date_start ||
+          moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+        [Validators.required],
+      ],
+      id_student: [this.classObj?.id_student || null, [Validators.required]],
       id: [this.classObj?.id || null],
-      price: [this.classObj?.price || 0, [Validators.required]],
+      price: [
+        this.classObj?.price || 0,
+        [Validators.required, Validators.min(1), Validators.max(100)],
+      ],
     });
   }
 

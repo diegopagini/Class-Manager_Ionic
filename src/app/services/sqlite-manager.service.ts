@@ -301,9 +301,8 @@ export class SqliteManagerService {
     }
   }
 
-  async deleteClass(classObj: ClassI): Promise<capSQLiteChanges> {
-    const sql =
-      'INSERT INTO class(date_start, date_end, id_student, price) VALUES(?,?,?,?)';
+  async deleteClass({ id }: ClassI): Promise<capSQLiteChanges> {
+    const sql = 'UPDATE class SET active=0 WHERE id=?';
     const dbName = await this.getDbName();
 
     try {
@@ -312,12 +311,7 @@ export class SqliteManagerService {
         set: [
           {
             statement: sql,
-            values: [
-              classObj.date_start,
-              classObj.date_end,
-              classObj.id_student,
-              classObj.price,
-            ],
+            values: [id],
           },
         ],
       });
