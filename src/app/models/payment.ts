@@ -5,5 +5,5 @@ export class Payment {
   date: string;
   id_class: number;
   id: number;
-  paid: boolean;
+  paid: boolean | number;
 }

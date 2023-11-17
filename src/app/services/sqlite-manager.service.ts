@@ -274,8 +274,6 @@ export class SqliteManagerService {
   }
 
   async updateClass(classObj: ClassI): Promise<capSQLiteChanges> {
-    console.log(classObj);
-
     const sql =
       'UPDATE class SET date_start=?, date_end=?, id_student=?, price=? WHERE id=?';
     const dbName = await this.getDbName();
@@ -363,6 +361,80 @@ export class SqliteManagerService {
       }
 
       return Promise.resolve(payments);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
+  async createPayment(payment: Payment): Promise<capSQLiteChanges> {
+    const sql = 'INSERT INTO payment(date, id_class, paid) VALUES(?,?,?)';
+    const dbName = await this.getDbName();
+
+    try {
+      const changes = await CapacitorSQLite.executeSet({
+        database: dbName,
+        set: [
+          {
+            statement: sql,
+            values: [payment.date, payment.id_class, payment.paid],
+          },
+        ],
+      });
+      // Only for web.
+      if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
+
+      return Promise.resolve(changes);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
+  async getPaymentByClass(classId: number): Promise<Payment> {
+    const sql = 'SELECT * FROM payment WHERE id_class=?';
+    const dbName = await this.getDbName();
+
+    try {
+      const response = await CapacitorSQLite.query({
+        database: dbName,
+        statement: sql,
+        values: [classId],
+      });
+
+      const payments: Payment[] = [];
+
+      for (const item of response!.values!) {
+        payments.push(item as Payment);
+      }
+
+      return Promise.resolve(payments[0]);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+  }
+
+  async updatePayment(payment: Payment): Promise<Payment> {
+    const sql = 'UPDATE payment SET date=?, id_class=?, paid=? WHERE id = ?';
+    const dbName = await this.getDbName();
+
+    try {
+      const response = await CapacitorSQLite.query({
+        database: dbName,
+        statement: sql,
+        values: [payment.date, payment.id_class, payment.paid, payment.id],
+      });
+
+      const payments: Payment[] = [];
+
+      for (const item of response!.values!) {
+        payments.push(item as Payment);
+      }
+      // Only for web.
+      if (this.isWeb) CapacitorSQLite.saveToStore({ database: dbName });
+
+      return Promise.resolve(payments[0]);
     } catch (error) {
       console.error(error);
       return Promise.reject(error);

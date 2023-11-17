@@ -55,6 +55,29 @@
     <ion-text>{{ classForm.get("price").value }}€</ion-text>
   </ion-item>
 
+  <ion-item>
+    <ion-toggle formControlName="paid">{{
+      "label.is.paid" | translate
+    }}</ion-toggle>
+  </ion-item>
+
+  @if (classForm.get('paid')?.value === true) {
+  <ion-item>
+    <ion-label>{{ "label.date.paid" | translate }}</ion-label>
+    <ion-datetime-button
+      slot="end"
+      displayFormat="DD MMM yyyy HH MM"
+      datetime="payment"
+    ></ion-datetime-button>
+    <!-- To connect datetime button with ion datetime "payment" -->
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="payment" formControlName="payment"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
+  }
+
   <ion-grid>
     <ion-row>
       <ion-col size="6">
